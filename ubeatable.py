@@ -47,7 +47,8 @@ def insertLetter(letter, position):
         position = int(input("Please enter a new position: "))
         insertLetter(letter, position)
         return    
-#This function checks the win conditions for Horizontal vertical and diagonal combinations
+    
+#This function checks the win conditions for Horizontal vertical and diagonal combinations and returns a boolean value 
 def checkWin():
     if (board[1] == board[2] and board[1] == board[3] and board[1] != ' '):
         return True
@@ -89,6 +90,7 @@ def checkWhichPlayerWon(mark):
     else:
         return False
 
+#Checks if the game has ended in a draw or not.
 def checkDraw():
     for key in board.keys():
         if board[key] == ' ':
@@ -101,6 +103,7 @@ def playerMove():
     insertLetter(player, position)
     return 
 
+#Select a random move by using the random function. 
 def RandomCompMove():
 
     randomPos = random.randrange(0,len(board.keys()))
@@ -110,18 +113,7 @@ def RandomCompMove():
     else:
         RandomCompMove()
 
-
-def HeuristicCHoice():
-    if board[1] == 'O' :
-        insertLetter(computer,board[3])
-    elif board[1] == ' ':
-        insertLetter(computer,board[1])
-    else:
-        randomPos = random.randrange(0,len(board.keys()))
-        insertLetter(computer,randomPos)
-
-    return
-
+#Responsible for the AI making a move. Currenlty hard coded to use minimax algorithm by default.
 def compMove():
     
     bestScore = -800
@@ -168,6 +160,7 @@ def minimax(board, isMaximizing):
         return bestScore
 
 
+#main loop. Checks if the end game conditions have been met and if they arent meant the game will be played.The compute always move first.
 while not checkWin():
     compMove()
     playerMove()
