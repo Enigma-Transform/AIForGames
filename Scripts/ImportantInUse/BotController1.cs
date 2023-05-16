@@ -7,15 +7,20 @@ public class BotController1 : MonoBehaviour
     // Variables for the neural network
     public MyNeuralNetwork network;
     private int[] layers = new int[] { 3, 8, 8, 2 };
+    
+    //variables responsible for fitness of the AT agent
     public float distanceTravelled = 0f;
     public int numCollisions = 0;
     Vector3 lastPosition;
 
     // Other variables
     private Rigidbody rb;
+    //Inputs for the neural network
     private float[] inputs = new float[3];
     private float[] outputs;
+    
     Vector3 startPos;
+    
     public Transform wallCheck;
     public float maxDistance = 8f;
     public int numRays = 3;
