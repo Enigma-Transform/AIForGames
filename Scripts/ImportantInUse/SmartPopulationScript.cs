@@ -33,6 +33,7 @@ public class SmartPopulationScript : MonoBehaviour
 
     private void Start()
     {
+    //Spawn initial population based on population size.
         for (int i = 0; i < populationSize; i++)
         {
             Quaternion randomRotation = Random.rotation;
@@ -41,6 +42,7 @@ public class SmartPopulationScript : MonoBehaviour
                                            startingPosition.transform.position.y,
                                            startingPosition.transform.position.z + Random.Range(-2, 2));
             GameObject go = Instantiate(agentPrefab, startingPos,randomYRotation);
+            //initalize the neural network of the bots.
             go.GetComponent<BotController1>().init(layers);
             population.Add(go);
         }
@@ -107,6 +109,8 @@ public class SmartPopulationScript : MonoBehaviour
 
          return offspring;
      }*/
+     
+     //Crossover function responsible for breeding the fittest parents.
     private MyNeuralNetwork UniformCrossover(MyNeuralNetwork parent1, MyNeuralNetwork parent2, float mutationRate, float mutationRange)
     {
         MyNeuralNetwork offspring = new MyNeuralNetwork(parent1.layers);
@@ -126,7 +130,6 @@ public class SmartPopulationScript : MonoBehaviour
                         offspring.weights[i][j][k] = parent2.weights[i][j][k];
                     }
 
-                    // Add Gaussian mutation
                     if (Random.value < mutationRate)
                     {
                         offspring.weights[i][j][k] += Random.Range(-mutationRange, mutationRange);
@@ -148,7 +151,6 @@ public class SmartPopulationScript : MonoBehaviour
                     offspring.biases[i][j] = parent2.biases[i][j];
                 }
 
-                // Add Gaussian mutation
                 if (Random.value < mutationRate)
                 {
                     offspring.biases[i][j] += Random.Range(-mutationRange, mutationRange);
@@ -159,6 +161,7 @@ public class SmartPopulationScript : MonoBehaviour
         return offspring;
     }
 
+//Responsible for evalutating fitness of each parent and then calls the crossover function for breeding.
     void NewPopulation()
     {
         List<GameObject> sortedList = population.OrderBy(o => o.GetComponent<BotController1>().numCollisions).ThenBy(o => Vector3.Distance(goal.transform.position,o.transform.position)).ToList();
